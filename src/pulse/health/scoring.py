@@ -88,6 +88,8 @@ def trend_component(rms_values: Sequence[float], baseline: float) -> float:
     x = np.arange(len(rms_values), dtype=np.float64)
     slope = float(np.polyfit(x, np.asarray(rms_values, dtype=np.float64), 1)[0])
     rise = slope * (len(rms_values) - 1) / max(baseline, 1e-9)
+    if abs(rise) < 1e-9:
+        return 1.0
     return float(np.clip(1.0 - rise, 0.0, 1.0))
 
 

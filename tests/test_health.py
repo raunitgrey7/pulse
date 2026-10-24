@@ -52,7 +52,7 @@ def test_impulsiveness_component_bounds() -> None:
 
 def test_trend_component_penalises_rising_level() -> None:
     assert trend_component([1.0, 1.0, 1.0], 1.0) == pytest.approx(1.0)
-    assert trend_component([1.0, 1.5, 2.0], 1.0) == 0.0
+    assert trend_component([1.0, 1.5, 2.0], 1.0) == pytest.approx(0.0, abs=1e-9)
     assert trend_component([2.0, 1.5, 1.0], 1.0) == 1.0
     assert trend_component([1.0, 2.0], 1.0) == 1.0
 

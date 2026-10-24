@@ -125,3 +125,18 @@ def test_generate_writes_a_dataset(tmp_path: Path, capsys: pytest.CaptureFixture
 def test_parser_requires_a_command() -> None:
     with pytest.raises(SystemExit):
         cli.build_parser().parse_args([])
+
+
+def test_fleet_and_bench_arguments_pass_through(monkeypatch: pytest.MonkeyPatch) -> None:
+    seen: dict[str, list[str]] = {}
+
+    def fake_main(argv: list[str]) -> int:
+        seen["argv"] = argv
+        return 0
+
+    monkeypatch.setattr("pulse.fleet.__main__.main", fake_main)
+    assert cli.main(["fleet", "--api", "http://x", "--rounds", "3"]) == 0
+    assert seen["argv"] == ["--api", "http://x", "--rounds", "3"]
+    monkeypatch.setattr("pulse.bench.__main__.main", fake_main)
+    assert cli.main(["bench", "--check-only"]) == 0
+    assert seen["argv"] == ["--check-only"]

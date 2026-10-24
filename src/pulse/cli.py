@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import importlib
 import json
 import sys
 from dataclasses import asdict
@@ -86,18 +87,6 @@ def _cmd_generate(args: argparse.Namespace) -> int:
     return 0
 
 
-def _cmd_bench(args: argparse.Namespace) -> int:
-    from pulse.bench.__main__ import main
-
-    return main(args.rest)
-
-
-def _cmd_fleet(args: argparse.Namespace) -> int:
-    from pulse.fleet.__main__ import main
-
-    return main(args.rest)
-
-
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="pulse", description="Edge AI for predictive maintenance.")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -127,17 +116,20 @@ def build_parser() -> argparse.ArgumentParser:
     gen.add_argument("--n-per-class", type=int, default=50)
     gen.add_argument("--seed", type=int, default=0)
     gen.set_defaults(func=_cmd_generate)
-    for name, func, help_text in (
-        ("bench", _cmd_bench, "run the benchmark"),
-        ("fleet", _cmd_fleet, "run the device fleet"),
-    ):
-        p = sub.add_parser(name, help=help_text, add_help=False)
-        p.add_argument("rest", nargs=argparse.REMAINDER)
-        p.set_defaults(func=func)
+    sub.add_parser("bench", help="run the benchmark (arguments are passed to pulse.bench)")
+    sub.add_parser("fleet", help="run the device fleet (arguments are passed to pulse.fleet)")
     return parser
 
 
+PASSTHROUGH: dict[str, str] = {"bench": "pulse.bench.__main__", "fleet": "pulse.fleet.__main__"}
+
+
 def main(argv: list[str] | None = None) -> int:
+    """Dispatch; ``bench`` and ``fleet`` hand their whole argument list to their own parsers."""
+    argv = sys.argv[1:] if argv is None else argv
+    if argv and argv[0] in PASSTHROUGH:
+        module = importlib.import_module(PASSTHROUGH[argv[0]])
+        return int(module.main(argv[1:]))
     args = build_parser().parse_args(argv)
     return int(args.func(args))
 

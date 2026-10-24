@@ -21,7 +21,7 @@ from pulse.api.settings import Settings
 from pulse.api.store import TelemetryStore
 from pulse.health.alerts import Alert, AlertManager, AlertRules, log_sink
 from pulse.health.scoring import HealthScorer
-from pulse.registry.rollout import CanaryGuard, ModelRegistry
+from pulse.registry.rollout import CanaryGuard, ModelRegistry, Stage
 from pulse.registry.signing import VerifyKey
 
 SCORE_HISTORY = 10
@@ -114,9 +114,8 @@ class Services:
         self.metrics.open_alerts.set(len(self.alerts.list(open_only=True)))
         if latest:
             self.metrics.fleet_health_mean.set(sum(s.score for s in latest.values()) / len(latest))
-        stages: dict[str, int] = {}
+        stages = {stage.value: 0 for stage in Stage}
         for version in self.registry.versions():
-            stage = self.registry.state(version).stage.value
-            stages[stage] = stages.get(stage, 0) + 1
+            stages[self.registry.state(version).stage.value] += 1
         for stage, count in stages.items():
             self.metrics.releases.set(count, stage=stage)

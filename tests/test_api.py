@@ -213,7 +213,10 @@ def test_rollout_ladder_through_the_api(client: TestClient, signing_key: Signing
     rolled = client.post("/v1/registry/releases/1.0.0/rollback", json={"reason": "noise"}).json()
     assert rolled["rollout"]["stage"] == "rolled_back"
     assert client.get("/v1/registry/assignment/dev-xyz").json()["version"] is None
-    assert 'pulse_registry_releases{stage="rolled_back"} 1' in client.get("/metrics").text
+    metrics = client.get("/metrics").text
+    assert 'pulse_registry_releases{stage="rolled_back"} 1' in metrics
+    assert 'pulse_registry_releases{stage="fleet"} 0' in metrics
+    assert 'pulse_registry_releases{stage="draft"} 0' in metrics
 
 
 def test_alarm_storm_blocks_promotion(client: TestClient, signing_key: SigningKey) -> None:
