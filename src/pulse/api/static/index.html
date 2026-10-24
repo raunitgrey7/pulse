@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse fleet</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Pulse fleet</h1>
+    <p class="sub">Edge vibration diagnostics: device health, alerts and model rollout. Refreshes every 3 s.</p>
+  </div>
+  <label class="key">API key <input id="api-key" type="password" placeholder="only if APP_API_KEY is set" autocomplete="off"></label>
+</header>
+
+<section class="tiles" aria-label="Fleet summary">
+  <article class="tile"><span class="tile-label">Devices</span><span class="tile-value" id="kpi-devices">-</span></article>
+  <article class="tile"><span class="tile-label">Mean health</span><span class="tile-value" id="kpi-health">-</span></article>
+  <article class="tile"><span class="tile-label">Healthy / watch / critical</span><span class="tile-value" id="kpi-bands">-</span></article>
+  <article class="tile"><span class="tile-label">Open alerts</span><span class="tile-value" id="kpi-alerts">-</span></article>
+  <article class="tile"><span class="tile-label">Reports ingested</span><span class="tile-value" id="kpi-reports">-</span></article>
+</section>
+
+<main class="grid">
+  <section class="card" aria-labelledby="devices-h">
+    <h2 id="devices-h">Devices</h2>
+    <table class="devices">
+      <thead><tr><th>Device</th><th>Band</th><th class="num">Score</th><th>Trend (last 30)</th><th>Dominant class</th><th class="num">RPM</th><th class="num">RMS (g)</th><th>Model</th><th class="num">Reports</th></tr></thead>
+      <tbody id="devices-body"><tr><td colspan="9" class="empty">No telemetry yet. Start the fleet with <code>make fleet</code>.</td></tr></tbody>
+    </table>
+  </section>
+
+  <section class="card" aria-labelledby="alerts-h">
+    <h2 id="alerts-h">Open alerts</h2>
+    <ul id="alerts-list" class="alerts"><li class="empty">None open.</li></ul>
+  </section>
+
+  <section class="card" aria-labelledby="releases-h">
+    <h2 id="releases-h">Model releases and rollout</h2>
+    <table class="releases">
+      <thead><tr><th>Version</th><th>Stage</th><th class="num">Fleet %</th><th class="num">Devices</th><th class="num">Reports</th><th class="num">Fault rate</th><th class="num">Bench accuracy</th><th>Actions</th></tr></thead>
+      <tbody id="releases-body"><tr><td colspan="8" class="empty">No releases. Publish one with <code>pulse release</code>.</td></tr></tbody>
+    </table>
+    <p id="release-msg" class="msg" role="status"></p>
+  </section>
+</main>
+<div id="tooltip" class="tooltip" hidden></div>
+<script src="/static/app.js"></script>
+</body>
+</html>
