@@ -1,0 +1,490 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-24T21:53:54+00:00",
+  "environment": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "python": "3.13.17",
+    "torch": "2.14.1",
+    "onnxruntime": "1.31.0",
+    "numpy": "2.5.4",
+    "scikit_learn": "1.9.1",
+    "cpu_count": 15,
+    "git_commit": "b3d4ae5"
+  },
+  "config": {
+    "out_dir": "benchmarks",
+    "artifacts_dir": "artifacts",
+    "data_dir": "data",
+    "n_train_per_class": 400,
+    "n_test_per_class": 150,
+    "train_seed": 7,
+    "test_seed": 8,
+    "model_seed": 0,
+    "epochs": 20,
+    "train_threads": 4,
+    "inference_threads": 1,
+    "latency_windows": 300,
+    "latency_warmup": 30,
+    "calibration_windows": 256,
+    "skip_train": false
+  },
+  "dataset": {
+    "train_windows": 2400,
+    "test_windows": 900,
+    "n_samples": 2048,
+    "fs_hz": 12000.0,
+    "classes": [
+      "healthy",
+      "imbalance",
+      "misalignment",
+      "outer_race",
+      "inner_race",
+      "ball"
+    ],
+    "rpm_range": [
+      900.0,
+      3600.0
+    ],
+    "severity_range": [
+      0.05,
+      1.0
+    ],
+    "snr_db_range": [
+      -6.0,
+      15.0
+    ],
+    "train_seed": 7,
+    "test_seed": 8
+  },
+  "training": {
+    "baseline_seconds": 21.92,
+    "cnn_seconds": 49.64,
+    "cnn_epochs": 20,
+    "cnn_best_epoch": 18,
+    "cnn_val_accuracy_per_epoch": [
+      0.375,
+      0.5583,
+      0.6167,
+      0.6667,
+      0.5708,
+      0.5667,
+      0.8583,
+      0.875,
+      0.9542,
+      0.8708,
+      0.9625,
+      0.9583,
+      0.9708,
+      0.9625,
+      0.975,
+      0.9708,
+      0.9667,
+      0.975,
+      0.975,
+      0.9708
+    ],
+    "cnn_train_loss_per_epoch": [
+      1.6358,
+      1.0633,
+      0.6933,
+      0.4679,
+      0.4133,
+      0.3326,
+      0.2963,
+      0.2184,
+      0.2123,
+      0.181,
+      0.186,
+      0.1718,
+      0.1419,
+      0.1287,
+      0.0951,
+      0.098,
+      0.0864,
+      0.0862,
+      0.0849,
+      0.0831
+    ],
+    "cnn_parameters": 74220
+  },
+  "variants": {
+    "baseline_features": {
+      "artifact": "artifacts/baseline.pkl",
+      "kind": "baseline",
+      "accuracy": 0.99,
+      "macro_f1": 0.9900214455214759,
+      "per_class_recall": {
+        "healthy": 0.9933333333333333,
+        "imbalance": 0.9533333333333334,
+        "misalignment": 1.0,
+        "outer_race": 1.0,
+        "inner_race": 0.9933333333333333,
+        "ball": 1.0
+      },
+      "confusion_matrix": [
+        [
+          149,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          7,
+          143,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          150,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          150,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          149,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          150
+        ]
+      ],
+      "size_bytes": 2087863,
+      "latency_p50_ms": 4.2609585,
+      "latency_p95_ms": 4.5725503000000005,
+      "latency_mean_ms": 4.282439683333334,
+      "latency_min_ms": 3.9875,
+      "latency_repeats": 300,
+      "peak_rss_mb": 139.55,
+      "load_seconds": 0.4783,
+      "memprobe_accuracy": 0.99,
+      "size_ratio_vs_fp32": 6.9333
+    },
+    "cnn_torch_fp32": {
+      "artifact": "artifacts/cnn_fp32.pt",
+      "kind": "torch",
+      "accuracy": 0.9611111111111111,
+      "macro_f1": 0.9612453048829587,
+      "per_class_recall": {
+        "healthy": 0.9933333333333333,
+        "imbalance": 0.92,
+        "misalignment": 0.9666666666666667,
+        "outer_race": 0.96,
+        "inner_race": 0.96,
+        "ball": 0.9666666666666667
+      },
+      "confusion_matrix": [
+        [
+          149,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          11,
+          138,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          145,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          144,
+          1,
+          3
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          144,
+          4
+        ],
+        [
+          2,
+          0,
+          0,
+          1,
+          2,
+          145
+        ]
+      ],
+      "size_bytes": 309801,
+      "latency_p50_ms": 0.240041,
+      "latency_p95_ms": 0.2531723,
+      "latency_mean_ms": 0.23650919333333334,
+      "latency_min_ms": 0.204334,
+      "latency_repeats": 300,
+      "peak_rss_mb": 206.48,
+      "load_seconds": 0.3215,
+      "memprobe_accuracy": 0.9611111111111111,
+      "size_ratio_vs_fp32": 1.0288
+    },
+    "cnn_onnx_fp32": {
+      "artifact": "artifacts/cnn_fp32.onnx",
+      "kind": "onnx",
+      "accuracy": 0.9611111111111111,
+      "macro_f1": 0.9612453048829587,
+      "per_class_recall": {
+        "healthy": 0.9933333333333333,
+        "imbalance": 0.92,
+        "misalignment": 0.9666666666666667,
+        "outer_race": 0.96,
+        "inner_race": 0.96,
+        "ball": 0.9666666666666667
+      },
+      "confusion_matrix": [
+        [
+          149,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          11,
+          138,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          145,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          144,
+          1,
+          3
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          144,
+          4
+        ],
+        [
+          2,
+          0,
+          0,
+          1,
+          2,
+          145
+        ]
+      ],
+      "size_bytes": 301134,
+      "latency_p50_ms": 0.15331250000000002,
+      "latency_p95_ms": 0.15925625000000002,
+      "latency_mean_ms": 0.1532463666666667,
+      "latency_min_ms": 0.142208,
+      "latency_repeats": 300,
+      "peak_rss_mb": 66.58,
+      "load_seconds": 0.0156,
+      "memprobe_accuracy": 0.9611111111111111,
+      "size_ratio_vs_fp32": 1.0,
+      "max_abs_prob_diff_vs_torch": 1.996755599975586e-06,
+      "prediction_agreement_vs_torch": 1.0
+    },
+    "cnn_onnx_int8_dynamic": {
+      "artifact": "artifacts/cnn_int8_dynamic.onnx",
+      "kind": "onnx",
+      "accuracy": 0.96,
+      "macro_f1": 0.9601235927647888,
+      "per_class_recall": {
+        "healthy": 0.9933333333333333,
+        "imbalance": 0.92,
+        "misalignment": 0.9666666666666667,
+        "outer_race": 0.96,
+        "inner_race": 0.96,
+        "ball": 0.96
+      },
+      "confusion_matrix": [
+        [
+          149,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          11,
+          138,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          145,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          144,
+          1,
+          3
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          144,
+          4
+        ],
+        [
+          2,
+          0,
+          0,
+          2,
+          2,
+          144
+        ]
+      ],
+      "size_bytes": 91281,
+      "latency_p50_ms": 0.101167,
+      "latency_p95_ms": 0.10875980000000002,
+      "latency_mean_ms": 0.10029913,
+      "latency_min_ms": 0.0925,
+      "latency_repeats": 300,
+      "peak_rss_mb": 66.58,
+      "load_seconds": 0.0166,
+      "memprobe_accuracy": 0.9611111111111111,
+      "size_ratio_vs_fp32": 0.3031,
+      "max_abs_prob_diff_vs_torch": 0.06672018766403198,
+      "prediction_agreement_vs_torch": 0.9988888888888889
+    },
+    "cnn_onnx_int8_static": {
+      "artifact": "artifacts/cnn_int8_static.onnx",
+      "kind": "onnx",
+      "accuracy": 0.9611111111111111,
+      "macro_f1": 0.9612313863464391,
+      "per_class_recall": {
+        "healthy": 0.9933333333333333,
+        "imbalance": 0.92,
+        "misalignment": 0.9666666666666667,
+        "outer_race": 0.96,
+        "inner_race": 0.9666666666666667,
+        "ball": 0.96
+      },
+      "confusion_matrix": [
+        [
+          149,
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          11,
+          138,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          145,
+          0,
+          0,
+          0
+        ],
+        [
+          2,
+          0,
+          0,
+          144,
+          1,
+          3
+        ],
+        [
+          1,
+          0,
+          0,
+          1,
+          145,
+          3
+        ],
+        [
+          2,
+          0,
+          0,
+          2,
+          2,
+          144
+        ]
+      ],
+      "size_bytes": 90164,
+      "latency_p50_ms": 0.06575,
+      "latency_p95_ms": 0.06650210000000001,
+      "latency_mean_ms": 0.06499071333333334,
+      "latency_min_ms": 0.062708,
+      "latency_repeats": 300,
+      "peak_rss_mb": 67.09,
+      "load_seconds": 0.0167,
+      "memprobe_accuracy": 0.9611111111111111,
+      "size_ratio_vs_fp32": 0.2994,
+      "max_abs_prob_diff_vs_torch": 0.07275593280792236,
+      "prediction_agreement_vs_torch": 0.9977777777777778
+    }
+  },
+  "total_seconds": 80.1
+}
