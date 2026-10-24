@@ -1,0 +1,17 @@
+{
+  "rules": [
+    {"variant": "baseline_features", "metric": "accuracy", "op": ">=", "value": 0.95},
+    {"variant": "cnn_torch_fp32", "metric": "accuracy", "op": ">=", "value": 0.90},
+    {"variant": "cnn_onnx_fp32", "metric": "accuracy", "op": ">=", "value": 0.90},
+    {"variant": "cnn_onnx_fp32", "metric": "prediction_agreement_vs_torch", "op": ">=", "value": 0.99},
+    {"variant": "cnn_onnx_fp32", "metric": "max_abs_prob_diff_vs_torch", "op": "<=", "value": 0.001},
+    {"variant": "cnn_onnx_fp32", "metric": "latency_p50_ms", "op": "<=", "value": 5.0},
+    {"variant": "cnn_onnx_int8_dynamic", "metric": "accuracy", "op": ">=", "value": 0.90},
+    {"variant": "cnn_onnx_int8_dynamic", "metric": "size_ratio_vs_fp32", "op": "<=", "value": 0.35},
+    {"variant": "cnn_onnx_int8_dynamic", "metric": "prediction_agreement_vs_torch", "op": ">=", "value": 0.95},
+    {"variant": "cnn_onnx_int8_static", "metric": "accuracy", "op": ">=", "value": 0.90},
+    {"variant": "cnn_onnx_int8_static", "metric": "size_ratio_vs_fp32", "op": "<=", "value": 0.35},
+    {"variant": "cnn_onnx_int8_static", "metric": "prediction_agreement_vs_torch", "op": ">=", "value": 0.95},
+    {"variant": "cnn_onnx_int8_static", "metric": "latency_p50_ms", "op": "<=", "value": 2.0}
+  ]
+}

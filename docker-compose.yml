@@ -1,0 +1,24 @@
+services:
+  api:
+    build: .
+    image: pulse:local
+    ports:
+      - "8000:8000"
+    environment:
+      APP_API_KEY: ${APP_API_KEY:-}
+      PULSE_VERIFY_KEY_HEX: ${PULSE_VERIFY_KEY_HEX:-}
+    volumes:
+      - pulse-data:/app/data
+  fleet:
+    image: pulse:local
+    depends_on:
+      - api
+    environment:
+      APP_API_KEY: ${APP_API_KEY:-}
+    command: >
+      pulse fleet --api http://api:8000 --devices 12 --rounds 600 --interval 1.0
+      --model /app/artifacts/cnn_int8_static.onnx ${PULSE_VERIFY_KEY_HEX:+--trust-key ${PULSE_VERIFY_KEY_HEX}}
+    volumes:
+      - ./artifacts:/app/artifacts:ro
+volumes:
+  pulse-data:

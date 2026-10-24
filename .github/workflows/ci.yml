@@ -1,0 +1,31 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Install Python 3.13 and dependencies
+        run: |
+          uv python install 3.13
+          uv sync --all-extras --dev
+      - name: Lint
+        run: make lint
+      - name: Tests
+        run: make test
+      - name: Benchmark quality gate
+        run: make bench
+      - name: Upload benchmark results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks
+          path: |
+            benchmarks/results.json
+            benchmarks/RESULTS.md
