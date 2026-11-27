@@ -190,10 +190,11 @@ canary release with every other stage at 0; 125 JSON log lines with 40 `202` ing
   here transfers to a real machine without that study.
 * One machine geometry and one resonance frequency.
 * Latency and memory were measured on an Apple Silicon laptop, not on an embedded ARM part.
-* Browser tools were not used, so the dashboard was verified by serving it (HTTP 200), a node syntax
-  check of `app.js` and exercising every endpoint it calls, not by rendering it.
-* The CI workflow was written but not executed (nothing was pushed, by instruction). Its benchmark
-  gate carries margins because CNN training is deterministic per machine, not across platforms.
+* The dashboard was verified by serving it (HTTP 200), a node syntax check of `app.js`, exercising
+  every endpoint it calls and rendering the loaded page in headless Chrome with no console errors;
+  its buttons were not driven by an automated browser test.
+* The CI workflow runs lint, the tests and the benchmark gate on GitHub Actions on every push. Its
+  benchmark gate carries margins because CNN training is deterministic per machine, not across platforms.
 * Alerts live in process memory; the stale-device check is an endpoint (`POST /v1/alerts/check-stale`),
   not a scheduler. A multi-instance deployment would need a shared store for both.
 * Health score weights and alert thresholds are reasoned defaults, not tuned on labelled incidents.
