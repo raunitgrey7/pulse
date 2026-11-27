@@ -20,7 +20,7 @@ bench:
 	$(UV) run python -m pulse.bench
 
 serve:
-	$(UV) run pulse serve --host 0.0.0.0 --port 8000
+	$(UV) run pulse serve --host 127.0.0.1 --port 8000
 
 fleet:
 	$(UV) run pulse fleet --api http://127.0.0.1:8000 --devices 12 --rounds 60 --interval 1.0

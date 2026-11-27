@@ -1,5 +1,8 @@
 # pulse
 
+[![ci](https://github.com/raunitgrey7/pulse/actions/workflows/ci.yml/badge.svg)](https://github.com/raunitgrey7/pulse/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Edge AI for predictive maintenance of rotating machinery: a physics-based
 vibration data generator with exact ground truth, a classical baseline and a
 small 1D CNN, ONNX export with int8 quantisation, a benchmark that measures
